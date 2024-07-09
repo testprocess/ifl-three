@@ -1,10 +1,12 @@
 import * as THREE from "three";
+import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
 
 class Scene {
   scene: THREE.Scene;
   renderer: THREE.WebGLRenderer;
   camera: any;
   mesh: any;
+  controls: OrbitControls;
   constructor() {
     const width = window.innerWidth,
       height = window.innerHeight;
@@ -22,12 +24,17 @@ class Scene {
     this.renderer = new THREE.WebGLRenderer({ antialias: true });
     this.renderer.setSize(width, height);
     this.renderer.setAnimationLoop(this.animate.bind(this));
+
+    this.controls = new OrbitControls(this.camera, this.renderer.domElement);
+    this.controls.update();
     document.body.appendChild(this.renderer.domElement);
   }
 
-  animate(time: number) {
-    this.mesh.rotation.x = time / 2000;
-    this.mesh.rotation.y = time / 1000;
+  animate() {
+    // this.mesh.rotation.x = time / 2000;
+    // this.mesh.rotation.y = time / 1000;
+
+    this.controls.update();
 
     this.renderer.render(this.scene, this.camera);
   }
